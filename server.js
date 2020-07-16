@@ -17,6 +17,7 @@ const protoo = require('protoo-server');
 const mediasoup = require('mediasoup');
 const express = require('express');
 const { AwaitQueue } = require('awaitqueue');
+const cors = require('cors');
 const Logger = require('./lib/Logger');
 const Room = require('./lib/Room');
 const interactiveServer = require('./lib/interactiveServer');
@@ -130,14 +131,14 @@ async function runMediasoupWorkers()
 async function createExpressApp()
 {
 	logger.info('creating Express app...');
-
 	app = express();	
+	app.use(cors());
+	app.options('*', cors());
 
 	require('./startup/routes.js')(app);
 	require('./sockets.js');
 
 	console.log('next');
-
 }
 
 /**
