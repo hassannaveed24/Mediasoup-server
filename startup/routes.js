@@ -1,7 +1,4 @@
-const express = require('express');
 const bodyParser = require('body-parser');
-
-const test = require('../routes/Test.js');
 
 module.exports = app => {
 	app.use(bodyParser.json());
