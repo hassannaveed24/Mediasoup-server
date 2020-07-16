@@ -101,36 +101,56 @@ app.post('/updateIndex',async function(req,res){
           if(err){
             console.log("Error 1",err);
           }
-       
-      
-          console.log(contactLIst)
-          //if req.body is only id and index
         
+          console.log(contactLIst)
+          var minValue = contactLIst[0].index; 
+          for(var i=0;i<contactLIst.length;i++){ 
+            if(contactLIst[i].index < minValue){ 
+              minValue = contactLIst[i].index; 
+            } 
+          } 
+          console.log("Start",minValue);
+          console.log("Length",contactLIst.length);
           const {newIndex, index, _id } = req.body;
+          var aindex,anewindex;
+          for(var i =0;i<contactLIst.length;i++){
+            if(contactLIst[i].index == index){
+              aindex=i;
+            }
+            if(contactLIst[i].index == newIndex){
+              anewindex = i;
+            }
+          }
+          var returnArray=array_move(contactLIst,aindex,anewindex);
+          console.log("Retrun Array",returnArray);
+      
+      
+      
+          for(var i=0;i<contactLIst.length;i++){
+            returnArray[i].index = minValue;
+            minValue++;
+          }
+          console.log("Retrun Array After",returnArray);
           
-          await contactListSchema.findByIdAndUpdate({_id},{index:contactLIst.length+256});
-      
-          // need to +1 
-          if(index > newIndex ){
-            contactLIst.forEach(async con =>{
-              if(con.index >= newIndex && con._id!= _id){
-                await contactListSchema.findByIdAndUpdate({_id:con._id},{index:(con.index+1)});
-              }
-              
-            })
+          for(var i =0;i<returnArray.length;i++){
+          await contactListSchema.findByIdAndUpdate({_id:returnArray[i]._id},{index:returnArray[i].index});
           }
-      
-          if(index < newIndex){
-            contactLIst.forEach(async con =>{
-              if(con.index <= newIndex && con._id!= _id){
-                await contactListSchema.findByIdAndUpdate({_id:con._id},{index:(con.index-1)});
-              }
-            })
-          }
-      
-          await contactListSchema.findByIdAndUpdate({_id},{index:newIndex});
-          res.status(200).send("updated")
+          res.status(200).send({
+            sucess:{
+              message:"Sucessfully Updated"
+            }
+          })
       })
+      function array_move(arr, old_index, new_index) {
+        if (new_index >= arr.length) {
+            var k = new_index - arr.length + 1;
+            while (k--) {
+                arr.push(undefined);
+            }
+        }
+        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        return arr; // for testing
+      };
     }catch(err){
         console.log(err)
     }
