@@ -4,29 +4,30 @@ const http = require("http").createServer(app)
 const io = require("socket.io")(http, {
   transports: ["websocket", "polling"],
 })
+const potentialPatient_Schema = require('./models/potentialPatientModel.js');
+const propertyManager_Schema = require('./models/propertyManagerModel');
 
-const names = ["security","propertymgr","admin"];
-io.on('connection', client => {
-    let filter=[];
-    client.on("checkrole", role => {
-        console.log('checking role');
-        filter = names.filter(name => name === role);
-        console.log (filter);
+io.on('connection', (client) => {
+    
+    client.on('testSocket', (req, res)=>{
+        console.log('Hello console.');
+        res.send('hello');
     })
-    if(filter.length>0){
-        switch(filter[0]) {
-        case "security":
-            // sockets for Security
-            
-        case "propertymgr":
-            // sockets for Property Mgr.
-        case "admin":
-            // sockets for Super Admin
+
+    // Setting Threshold by property manager
+    client.on('saveThreshold', async req => {
+        try{
+            let threshold = new threshold_Schema(req.body);
+            await threshold.save();
+            threshold = await threshold_Schema.find();
+            client.emit('broadcastThreshold', threshold);
+        }catch(err){
+            console.log(err);
         }
-    }else
-    {
-        client.on("disconnect", () => {
-            console.log("No valid role found, Socket disconnected");
-        })
-    }
+    })
+
+    // Disconnecting Socket
+    client.on("disconnect", () => {
+        console.log("Socket disconnected")
+    })
 })

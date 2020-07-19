@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const config = require ('../config');
 
-const db = "mongodb+srv://jawad:jawad@cluster0.ekzly.mongodb.net/Covid?retryWrites=true&w=majority";
+const db = config.app.CONN;
 
 try{
     mongoose.connect(db, {

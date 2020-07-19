@@ -10,7 +10,7 @@ module.exports = app => {
                 if(!check){
                     res.status(400).send({
                         error :{
-                            message:"Email Already Exist"
+                            message:"Email is not valid or Already Exist"
                         }
                     })
                 }

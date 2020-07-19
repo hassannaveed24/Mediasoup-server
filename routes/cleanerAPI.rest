@@ -1,0 +1,10 @@
+POST   https://192.168.10.7:4443/addCleaner
+Content-Type: application/json
+
+{
+    "fullName": "Hassan"
+}
+
+###########
+
+GET https://192.168.10.7:4443/viewCleaner

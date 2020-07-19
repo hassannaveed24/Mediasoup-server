@@ -9,6 +9,7 @@ const propertyManager_Schema = mongoose.model('propertyManager', new mongoose.Sc
         enum: ["Property Manager","Security Manager","Employee"]
     },
     phoneNumber:String,
+    
 }));
 
 module.exports = propertyManager_Schema;

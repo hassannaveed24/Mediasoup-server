@@ -9,6 +9,9 @@ module.exports = app => {
 	require('../routes/contactListAPI.js')(app);
 	require('../routes/noteAPI')(app);
 	require('../routes/propertyManagerAPI')(app);
+	require('../routes/potentialPatientAPI')(app);
+	require('../routes/thresholdAPI')(app);
+	require('../routes/twilioAPI')(app);
 
 	require('../routes/mediasoupAPI')(app);
 

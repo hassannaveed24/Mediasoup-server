@@ -3,25 +3,30 @@ const note_Schema = require('../models/noteModel');
 module.exports = app => {
     //Add Notes API
 app.post('/addNote',function(req,res){
-    var myData = new note_Schema(req.body);
-    console.log("Body Here",JSON.stringify(req.body));
-    console.log("My Data",JSON.stringify(myData));
-    myData.save()
-    .then(items => {
-        res.status(200).send({
-            sucess:{
-                message:"Sucessfully Saved"
-            }
-        });
-    })
-    .catch(err => {
-        res.status(400).send({
-            error:{
-                message:"Unable to save data",
-                error:err
-            }
-        });
-    })
+    try{
+        var myData = new note_Schema(req.body);
+        console.log("Body Here",JSON.stringify(req.body));
+        console.log("My Data",JSON.stringify(myData));
+        myData.save()
+        .then(items => {
+            res.status(200).send({
+                sucess:{
+                    message:"Sucessfully Saved"
+                }
+            });
+        })
+        .catch(err => {
+            res.status(400).send({
+                error:{
+                    message:"Unable to save data",
+                    error:err
+                }
+            });
+        })
+    }catch(err){
+        res.status(406).send(err)
+    }
+    
 })
 
 //Delete Note API

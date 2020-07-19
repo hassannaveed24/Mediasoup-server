@@ -56,8 +56,7 @@ app.get('/viewContact',async function(req,res){
     try{
         let contact = {};
         contact =await contactListSchema.find({},function(err,contact){
-            
-        });
+        }).sort('index');
         res.send(contact);
     }catch(err){
         console.log(err)

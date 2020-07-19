@@ -14,6 +14,13 @@ module.exports =
 {
 	// Listening hostname (just for `gulp live` task).
 	domain : process.env.DOMAIN || 'localhost',
+
+	app: {
+		CONN: process.env.CONN || 'mongodb+srv://posuser:1234@posdb-0yxjw.mongodb.net/dca?retryWrites=true&w=majority',
+		SID: process.env.SID || 'AC0bc55b9f47f5b235f6e739a12519124a',
+		TOKEN : process.env.TOKEN || 'dbf4e86809b9eab71a0c27c1fe1f13a4'
+	},
+
 	// Signaling settings (protoo WebSocket server and HTTP API server).
 	https  :
 	{
